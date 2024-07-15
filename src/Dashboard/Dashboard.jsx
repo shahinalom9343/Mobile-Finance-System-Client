@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const DashBoard = () => {
   return (
@@ -11,11 +11,13 @@ const DashBoard = () => {
         </div>
         <div className="col-span-1 md:col-span-4 md:px-4 text-white">
           <div className="flex flex-col md:flex-row gap-2 justify-around items-center">
-            <div>
-              <button className="btn">
-                Available Coin
-                <div className="badge badge-primary">1200</div>
-              </button>
+            <div className="flex gap-3">
+              <Link to="/login" className="btn btn-primary">
+                Login
+              </Link>
+              <Link to="/register" className="btn btn-success">
+                Register
+              </Link>
             </div>
           </div>
         </div>
