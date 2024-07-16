@@ -11,8 +11,9 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import { Link, Outlet } from "react-router-dom";
 
-const DashBoard = () => {
-  let role = "user";
+const DashBoard = ({ user }) => {
+  console.log(user);
+  let role = "admin";
   return (
     <div>
       <title>PickTask Rush | Dashboard</title>
