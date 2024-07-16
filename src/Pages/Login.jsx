@@ -1,6 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const pin = form.pin.value;
+    axiosSecure.patch(`/users/login/${email}`);
+    Swal.fire({
+      position: "top-right",
+      icon: "success",
+      title: "Login Successful !!!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    navigate("/");
+  };
   return (
     <div className="flex flex-col max-w-md p-6 shadow-md mt-4 sm:p-10 bg-slate-200 rounded-lg  dark:bg-gray-50 dark:text-gray-800">
       <div className="mb-8 text-center">
@@ -9,7 +28,7 @@ const Login = () => {
           Sign in to access your account
         </p>
       </div>
-      <form noValidate="" action="" className="space-y-12">
+      <form onSubmit={handleLogin} className="space-y-12">
         <div className="space-y-4">
           <div>
             <label htmlFor="email" className="block mb-2 text-sm">
@@ -25,21 +44,17 @@ const Login = () => {
           </div>
           <div>
             <div className="flex justify-between mb-2">
-              <label htmlFor="password" className="text-sm">
-                Password
+              <label htmlFor="pin" className="text-sm">
+                Pin
               </label>
-              <a
-                rel="noopener noreferrer"
-                href="#"
-                className="text-xs hover:underline dark:text-gray-600"
-              >
-                Forgot password?
+              <a className="text-xs hover:underline dark:text-gray-600">
+                Forgot pin?
               </a>
             </div>
             <input
-              type="password"
-              name="password"
-              id="password"
+              type="pin"
+              name="pin"
+              id="pin"
               placeholder="*****"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
             />

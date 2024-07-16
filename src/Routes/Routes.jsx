@@ -5,6 +5,15 @@ import UserHome from "../Dashboard/User/UserHome";
 import DashBoard from "../Dashboard/Dashboard";
 import Register from "../Pages/Register";
 import Login from "../Pages/Login";
+import Common from "../Dashboard/Common";
+import UserManagement from "../Dashboard/Admin/UserManagement";
+import SystemMonitoring from "../Dashboard/Admin/SystemMonitoring";
+import TransactionManagement from "../Dashboard/Agent/TransactionManagement";
+import BalanceInquery from "../Dashboard/Agent/BalanceInquery";
+import CashOut from "../Dashboard/User/CashOut";
+import CashIn from "../Dashboard/User/CashIn";
+import SendMoney from "../Dashboard/User/SendMoney";
+import BalanceHistory from "../Dashboard/User/BalanceHistory";
 
 const router = createBrowserRouter([
   {
@@ -22,17 +31,57 @@ const router = createBrowserRouter([
       // for users
       {
         index: true,
+        element: <Common></Common>,
+      },
+      {
+        path: "/userHome",
         element: <UserHome></UserHome>,
+      },
+      {
+        path: "/cashIn",
+        element: <CashIn></CashIn>,
+      },
+      {
+        path: "/cashOut",
+        element: <CashOut></CashOut>,
+      },
+      {
+        path: "/sendMoney",
+        element: <SendMoney></SendMoney>,
+      },
+      {
+        path: "/history",
+        element: <BalanceHistory></BalanceHistory>,
       },
       // for agents
       {
-        index: true,
+        path: "/agentHome",
         element: <AgentHome></AgentHome>,
+      },
+      {
+        path: "/transactionManagement",
+        element: <TransactionManagement></TransactionManagement>,
+      },
+      {
+        path: "/balanceInquery",
+        element: <BalanceInquery></BalanceInquery>,
       },
       // for admin
       {
         index: true,
+        element: <Common></Common>,
+      },
+      {
+        path: "/adminHome",
         element: <AdminHome></AdminHome>,
+      },
+      {
+        path: "/userManagement",
+        element: <UserManagement></UserManagement>,
+      },
+      {
+        path: "/systemMonitoring",
+        element: <SystemMonitoring></SystemMonitoring>,
       },
     ],
   },

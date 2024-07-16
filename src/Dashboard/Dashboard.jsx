@@ -1,6 +1,18 @@
+import {
+  FaAssistiveListeningSystems,
+  FaBalanceScale,
+  FaBalanceScaleRight,
+  FaCashRegister,
+  FaHome,
+  FaMoneyBill,
+  FaUsers,
+} from "react-icons/fa";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { PiHandWithdrawFill } from "react-icons/pi";
 import { Link, Outlet } from "react-router-dom";
 
 const DashBoard = () => {
+  let role = "user";
   return (
     <div>
       <title>PickTask Rush | Dashboard</title>
@@ -25,7 +37,86 @@ const DashBoard = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-7 gap-8">
         <div className="col-span-1 md:col-span-2 bg-sky-500  min-h-screen text-white">
-          <div className="divider">OR</div>
+          <ul className="menu p-5 font-medium text-lg">
+            {role === "admin" && (
+              <>
+                <li>
+                  <Link to="/adminHome">
+                    <FaHome></FaHome>
+                    Admin Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/userManagement">
+                    <FaUsers></FaUsers>
+                    User Management
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/systemMonitoring">
+                    <FaAssistiveListeningSystems></FaAssistiveListeningSystems>
+                    System Monitoring
+                  </Link>
+                </li>
+              </>
+            )}
+            {role === "agent" && (
+              <>
+                <li>
+                  <Link to="/agentHome">
+                    <FaHome></FaHome>
+                    Agent Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/transactionManagement">
+                    <FaMoneyBillTransfer></FaMoneyBillTransfer>
+                    Transaction Management
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/balanceInquery">
+                    <FaBalanceScale></FaBalanceScale>
+                    Balance Inquery
+                  </Link>
+                </li>
+              </>
+            )}
+            {role === "user" && (
+              <>
+                <li>
+                  <Link to="/userHome">
+                    <FaHome></FaHome>
+                    User Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sendMoney">
+                    <FaMoneyBill></FaMoneyBill>
+                    Send Money
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/cashIn">
+                    <FaCashRegister></FaCashRegister>
+                    Cash In
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/cashOut">
+                    <PiHandWithdrawFill />
+                    Cash Out
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/balanceHistory">
+                    <FaBalanceScaleRight />
+                    Balance History
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
         </div>
         <div className="col-span-1 md:col-span-5">
           <Outlet></Outlet>
