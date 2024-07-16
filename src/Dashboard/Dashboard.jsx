@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   FaAssistiveListeningSystems,
   FaBalanceScale,
@@ -10,10 +11,45 @@ import {
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import { Link, Outlet } from "react-router-dom";
+import HostModal from "./HostModal";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { toast, ToastContainer } from "react-toastify";
 
-const DashBoard = ({ user }) => {
-  console.log(user);
-  let role = "admin";
+const DashBoard = () => {
+  const userRole = localStorage.getItem("userRole");
+  const userEmail = localStorage.getItem("userEmail");
+  console.log(userRole);
+  let role = userRole;
+  const axiosSecure = useAxiosSecure();
+  const handleLogout = () => {
+    localStorage.removeItem("userRole");
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const modalHandler = async () => {
+    console.log("I want to be an Agent");
+    try {
+      const currentUser = {
+        email: userEmail,
+        role: "user",
+        status: "Requested",
+      };
+      const { data } = await axiosSecure.put(`/users`, currentUser);
+      console.log(data);
+      if (data.modifiedCount > 0) {
+        toast.success("Success! Please wait for admin confirmation");
+      } else {
+        toast.success("Please!, Wait for admin approval");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    } finally {
+      closeModal();
+    }
+  };
   return (
     <div>
       <title>PickTask Rush | Dashboard</title>
@@ -25,16 +61,37 @@ const DashBoard = ({ user }) => {
         <div className="col-span-1 md:col-span-4 md:px-4 text-white">
           <div className="flex flex-col md:flex-row gap-2 justify-around items-center">
             <div className="flex gap-3">
-              <Link to="/login" className="btn btn-primary">
-                Login
-              </Link>
+              {userRole ? (
+                <div className="flex gap-2">
+                  {role === "user" && (
+                    <button
+                      disabled={!userRole}
+                      onClick={() => setIsModalOpen(true)}
+                      className="btn btn-outline disabled:cursor-not-allowed cursor-pointer py-3 px-4 text-sm font-semibold rounded-lg  transition"
+                    >
+                      Become an Agent
+                    </button>
+                  )}
+                  <HostModal
+                    isOpen={isModalOpen}
+                    closeModal={closeModal}
+                    modalHandler={modalHandler}
+                  />
+                  <button onClick={handleLogout} className="btn btn-primary">
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link to="/login" className="btn btn-primary">
+                  Login
+                </Link>
+              )}
               <Link to="/register" className="btn btn-success">
                 Register
               </Link>
             </div>
           </div>
         </div>
-        <details className="col-span-1 w-auto dropdown"></details>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-7 gap-8">
         <div className="col-span-1 md:col-span-2 bg-sky-500  min-h-screen text-white">
@@ -123,6 +180,7 @@ const DashBoard = ({ user }) => {
           <Outlet></Outlet>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

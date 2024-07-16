@@ -21,6 +21,8 @@ const Login = () => {
     const user = users?.find(
       (user) => user?.email === email && user?.pin === pin
     );
+    localStorage.setItem("userName", user.name);
+    localStorage.setItem("userRole", user.role);
     if (
       user
         ? Swal.fire({
@@ -32,7 +34,7 @@ const Login = () => {
           })
         : alert("Please input the right Email or Pin number")
     )
-      navigate("/", user);
+      navigate("/");
   };
   return (
     <div className="flex flex-col max-w-md p-6 shadow-md mt-4 sm:p-10 bg-slate-200 rounded-lg  dark:bg-gray-50 dark:text-gray-800">
@@ -82,7 +84,7 @@ const Login = () => {
             Sign in
           </button>
           <p className="px-6 text-sm text-center dark:text-gray-600">
-            Don't have an account yet?
+            Do not have an account yet?
             <Link
               rel="noopener noreferrer"
               to="/register"
