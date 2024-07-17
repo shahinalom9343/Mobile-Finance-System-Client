@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { PiHandWithdrawFill } from "react-icons/pi";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import HostModal from "./HostModal";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast, ToastContainer } from "react-toastify";
@@ -18,11 +18,13 @@ import { toast, ToastContainer } from "react-toastify";
 const DashBoard = () => {
   const userRole = localStorage.getItem("userRole");
   const userEmail = localStorage.getItem("userEmail");
-  console.log(userRole);
+  const navigate = useNavigate();
+  // console.log(userRole);
   let role = userRole;
   const axiosSecure = useAxiosSecure();
   const handleLogout = () => {
     localStorage.removeItem("userRole");
+    navigate("/login");
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
@@ -38,7 +40,7 @@ const DashBoard = () => {
       };
       const { data } = await axiosSecure.put(`/users`, currentUser);
       console.log(data);
-      if (data.modifiedCount > 0) {
+      if (data.insertedId > 0) {
         toast.success("Success! Please wait for admin confirmation");
       } else {
         toast.success("Please!, Wait for admin approval");

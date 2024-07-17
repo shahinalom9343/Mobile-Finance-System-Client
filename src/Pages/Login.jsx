@@ -6,23 +6,29 @@ import { useQuery } from "@tanstack/react-query";
 const Login = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  const { data: users = [] } = useQuery({
-    queryKey: ["users"],
+  const { data: user = [] } = useQuery({
+    queryKey: ["user"],
     queryFn: async () => {
-      const result = await axiosSecure.get("/users");
+      const result = fetch("http://localhost:5000/login").then((res) =>
+        res.json()
+      );
       return result.data;
     },
   });
+  console.log(user);
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const pin = form.pin.value;
-    const user = users?.find(
-      (user) => user?.email === email && user?.pin === pin
-    );
-    localStorage.setItem("userName", user.name);
-    localStorage.setItem("userRole", user.role);
+    const userData = {
+      email,
+      pin,
+    };
+    axiosSecure.post("/login", userData);
+    // localStorage.setItem("userName", user.name);
+    // localStorage.setItem("userRole", user.role);
+    // localStorage.setItem("userEmail", user.email);
     if (
       user
         ? Swal.fire({

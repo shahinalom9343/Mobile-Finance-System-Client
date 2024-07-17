@@ -21,6 +21,10 @@ const router = createBrowserRouter([
     element: <DashBoard></DashBoard>,
     children: [
       {
+        index: true,
+        element: <Common></Common>,
+      },
+      {
         path: "/login",
         element: <Login></Login>,
       },
@@ -29,10 +33,7 @@ const router = createBrowserRouter([
         element: <Register></Register>,
       },
       // for users
-      {
-        index: true,
-        element: <Common></Common>,
-      },
+
       {
         path: "/userHome",
         element: <UserHome></UserHome>,
@@ -67,10 +68,7 @@ const router = createBrowserRouter([
         element: <BalanceInquery></BalanceInquery>,
       },
       // for admin
-      {
-        index: true,
-        element: <Common></Common>,
-      },
+
       {
         path: "/adminHome",
         element: <AdminHome></AdminHome>,
