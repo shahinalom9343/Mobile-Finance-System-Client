@@ -1,21 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { useQuery } from "@tanstack/react-query";
 
 const Login = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  const { data: user = [] } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const result = fetch("http://localhost:5000/login").then((res) =>
-        res.json()
-      );
-      return result.data;
-    },
-  });
-  console.log(user);
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -25,22 +14,22 @@ const Login = () => {
       email,
       pin,
     };
-    axiosSecure.post("/login", userData);
-    // localStorage.setItem("userName", user.name);
-    // localStorage.setItem("userRole", user.role);
-    // localStorage.setItem("userEmail", user.email);
-    if (
-      user
-        ? Swal.fire({
-            position: "top-right",
-            icon: "success",
-            title: "Login Successful !!",
-            showConfirmButton: false,
-            timer: 1500,
-          })
-        : alert("Please input the right Email or Pin number")
-    )
+    axiosSecure.post("/login", userData).then((res) => {
+      const user = res.data.user;
+      if (user) {
+        Swal.fire({
+          position: "top-right",
+          icon: "success",
+          title: "Login Successful !!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        localStorage.setItem("user", user);
+      } else {
+        alert("Email or Password is invalid");
+      }
       navigate("/");
+    });
   };
   return (
     <div className="flex flex-col max-w-md p-6 shadow-md mt-4 sm:p-10 bg-slate-200 rounded-lg  dark:bg-gray-50 dark:text-gray-800">

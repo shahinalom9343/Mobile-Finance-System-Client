@@ -19,9 +19,10 @@ const DashBoard = () => {
   const userRole = localStorage.getItem("userRole");
   const userEmail = localStorage.getItem("userEmail");
   const navigate = useNavigate();
-  // console.log(userRole);
   let role = userRole;
   const axiosSecure = useAxiosSecure();
+
+  // logout button
   const handleLogout = () => {
     localStorage.removeItem("userRole");
     navigate("/login");
